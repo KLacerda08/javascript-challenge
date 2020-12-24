@@ -1,67 +1,87 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // assign data from data.js to a descriptive variable
 var ufoRecords = data;
 
-// construct main table
-var tbody = d3.select("tbody");
-console.log(ufoRecords);
+// ******* CONSTRUCT MAIN TABLE *******
+// Use a function that can be reused with the filtered data upon date input
 
-// Step 5: Use d3 to update each cell
-ufoRecords.forEach(function(record) {
-  console.log(record);
-  var row = tbody.append("tr");
-  Object.entries(record).forEach(function([key, value]) {
-    console.log(key, value);
-    // Append a cell to the row for each value
-    // in the weather report object
-    var cell = row.append("td");
-    cell.text(value);
-  });
-});
+// Find the table body html element
+var tbody = d3.select("#ufo-table").select("tbody");
+
+function buildTable(ufoRecords) {
+    // Use d3 to add rows for each UFO sighting record, add cells, populate each cell
+    ufoRecords.forEach(function(record) {
+        var row = tbody.append("tr");
+        Object.entries(record).forEach(function([key, value]) {
+            var cell = row.append("td");
+            cell.text(value);
+        });
+    });
+}
+
+// call the function
+buildTable(ufoRecords);
+
+// ******* CONSTRUCT the EVENT LISTENER *******
+
+// Select the button and create event handler for button
+var button = d3.select("#filter-btn");
+button.on("click", runEnter);
+
+// Select the form and create event handler for form
+var form = d3.select("form");
+form.on("submit", runEnter);
+
+// Complete the event handler function
+function runEnter() {
+    //clear the table 
+    tbody.html("");   
+    // Select the input element and get the raw HTML node
+    var inputElement = d3.select("#datetime");
+    // Get the value property of the input element
+    var inputValue = inputElement.property("value");
+    // Prevent the page from refreshing
+    d3.event.preventDefault();
+    // create a filtered data set 
+    var filteredData = ufoRecords.filter(record => record.datetime === inputValue);
+    // // Use d3 to add rows for each filtered UFO sighting record, add cells, populate each cell
+    // filteredData.forEach(function(record) {
+    //     // console.log(record);
+    //     var tbody = d3.select("#ufo-table").select("tbody");
+    //     var row = tbody.append("tr");
+    //     Object.entries(record).forEach(function([key, value]) {
+    //     // console.log(key, value);
+    //         var cell = row.append("td");
+    //         cell.text(value);
+    //     });
+    // });
+    // build new table with filtered data
+    console.log(filteredData);
+    buildTable(filteredData);
+};
+
+// // call the function
+// runEnter();
+// }
 
 
-
-// // Select the button
-// var button = d3.select("#filter-btn");
-
-// // Select the form
-// // var form = d3.select("#datetime");
-
-// // Create event handlers 
-// button.on("click", runEnter);
-// // form.on("submit", runEnter);
-
-// // Complete the event handler function for the form
-// function runEnter() {
-
-//     // Prevent the page from refreshing
-//     d3.event.preventDefault();
-    
-//     // Select the input element and get the raw HTML node
-//     var inputElement = d3.select("#datetime");
-
-//     // Get the value property of the input element
-//     var inputValue = inputElement.property("value");
-
-//     var filteredData = ufoRecords.filter(record => record.datetime === inputValue);
-    
-//     var tbody = d3.select("#ufo-table").select("tbody");
-    
-//     // Use d3 to append one table row `tr` for each UFO record object
-//     // this shows in console long like an separate rows of objects
-//     ufoRecords.forEach(function(record) {
-//         console.log(record);
-//         var row = tbody.append("tr");
-//     });
-
-//     // Use d3 to append 1 cell per UFO report value (datetime, state, country, shape
-//     // durationMinutes, comments), and update each cell's text
-//     Object.entries(record).forEach(function([key, value]) {
-//         var cell = row.append("td");
-//         cell.text(value);
-//         });
-
-
-//     };
 
 
         // var data = filteredData(function(record.datetime) {
