@@ -1,6 +1,7 @@
 # UFO Sightings
 
-![Aliens Have Landed in Grover's Mill, NJ!](images/War-of-the-Worlds-for-web.jpg)
+![Title](images/War-of-the-Worlds-for-web.jpg)
+Alien landing in Grovers Mill, NJ! 
 
 ## Table of contents
 * [Assignment](#assignment)
